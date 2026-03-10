@@ -43,8 +43,7 @@ $$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 L'analyse de la capture d'écran ci-dessous est cruciale. Elle montre quatre datasets différents qui possèdent pourtant des statistiques presque identiques (pente, ordonnée à l'origine et MSE).
 
 ### Visualisation des Résultats
-![[screenshot-2026-03-10_16-49-25 1.png]]
-
+(Screenshot disponible dans les fichiers)
 ### Interprétation des 4 cas :
 1.  **Dataset 1 (MSE = 1.25) :** Modèle linéaire classique. La droite suit bien la tendance générale malgré un bruit naturel.
 2.  **Dataset 2 (MSE = 1.47) :** La relation est clairement courbe. La fonction de prédiction linéaire ($ax + b$) est ici **inadaptée**, même si la MSE semble correcte.
