@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 v1 = [4,6]
 v2 = [1,2]
 v3 = [5,9]
@@ -100,18 +102,46 @@ datasets = [
     {"nom": "Dataset 4", "x": x4, "y": y4}
 ]
 
-for data in datasets:
+# --- PRÉPARATION DES GRAPHIQUES  ---
+# fig: la fenêtre, axes: la grille 2x2 de graphiques
+fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(10, 8))
+axes_flat = axes.flatten() # Pour passer plus facilement d'un graphique à l'autre
+fig.suptitle("Quatuor d'Anscombe : Mêmes Statistiques, Graphiques Différents", fontsize=16)
+
+# --- BOUCLE PRINCIPALE  ---
+print(f"{'Dataset':<12} | {'Pente (a)':<10} | {'Ordonnée (b)':<12} | {'MSE':<8}")
+print("-" * 55)
+
+for i, data in enumerate(datasets):
     x = data["x"]
     y = data["y"]
-    
-    # Calcul de a et b
+    nom = data["nom"]
+
+    # --- a. Tes calculs (inchangés) ---
     a, b = calcul_parametres(x, y)
-    
-    # Calcul des prédictions pour pouvoir calculer la MSE
     y_pred = [(a * val + b) for val in x]
-    
-    # Calcul de l'erreur
     erreur = calcul_mse(y, y_pred)
-    
-    # Affichage propre (arrondi à 2 décimales)
-    print(f"{data['nom']:<12} | {a:<10.2f} | {b:<12.2f} | {erreur:<8.2f}")
+    print(f"{nom:<12} | {a:<10.2f} | {b:<12.2f} | {erreur:<8.2f}")
+
+    # --- b. Les graphiques pour ce dataset ---
+    ax = axes_flat[i] # Sélectionne le bon sous-graphique
+
+    # 1. Dessiner les points de données réelles
+    ax.scatter(x, y, color='blue', marker='o', label='Données Réelles')
+
+    # 2. Dessiner la droite de régression (y = ax+b)
+    # On crée une belle droite sur tout l'axe des X
+    x_line = [min(x), max(x)]
+    y_line_pred = [a * val + b for val in x_line]
+    ax.plot(x_line, y_line_pred, color='red', linestyle='--', linewidth=2, label=f'Régression: y={a:.2f}x + {b:.2f}')
+
+    # 3. Personnaliser le graphique
+    ax.set_title(f"{nom} (MSE = {erreur:.2f})")
+    ax.set_xlabel("X (Surface m²)")
+    ax.set_ylabel("Y (Prix k€)")
+    ax.grid(True, linestyle=':', alpha=0.5) # Ajoute une grille discrète
+
+# --- FINALISER ET AFFICHER ---
+plt.tight_layout() # Empêche les titres de se chevaucher
+plt.subplots_adjust(top=0.90) # Fait de la place pour le grand titre
+plt.show() # Affiche la fenêtre avec les 4 graphiques
