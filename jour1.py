@@ -63,3 +63,55 @@ print(f"Le prix prédit est : y = {a} * surface + {b}")
 # Test de prédiction pour une maison de 100m2
 prediction = a * 100 + b
 print(f"Pour 100m2, le prix estimé est de {prediction} k€")
+
+
+# -- Calcul Erreur Quadratique moyenne -- 
+def calcul_mse(y_reel, y_predit):
+    n = len(y_reel)
+    somme_carres = 0
+    
+    for i in range(n):
+        # (Y_i - Y_chapeau_i) au carré
+        erreur = y_reel[i] - y_predit[i]
+        somme_carres += erreur ** 2
+        
+    return somme_carres / n
+
+# Data set 1
+x1 = [10.0, 8.0, 13.0, 9.0, 11.0, 14.0, 6.0, 4.0, 12.0, 7.0, 5.0]
+y1 = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
+
+# Data set 2
+x2 = [10.0, 8.0, 13.0, 9.0, 11.0, 14.0, 6.0, 4.0, 12.0, 7.0, 5.0]
+y2 = [9.14, 8.14, 8.74, 8.77, 9.26, 8.10, 6.13, 3.10, 7.26, 7.26, 4.74]
+
+# Data set 3
+x3 = [10.0, 8.0, 13.0, 9.0, 11.0, 14.0, 6.0, 4.0, 12.0, 7.0, 5.0]
+y3 = [7.46, 6.77, 12.74, 7.11, 8.81, 8.84, 6.08, 5.39, 8.15, 6.40, 5.73]
+
+# Data set 4
+x4 = [8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 19.0, 8.0, 8.0, 8.0]
+y4 = [6.58, 5.76, 5.76, 8.84, 8.47, 7.04, 5.25, 12.50, 5.56, 7.91, 6.89]
+
+datasets = [
+    {"nom": "Dataset 1", "x": x1, "y": y1},
+    {"nom": "Dataset 2", "x": x2, "y": y2},
+    {"nom": "Dataset 3", "x": x3, "y": y3},
+    {"nom": "Dataset 4", "x": x4, "y": y4}
+]
+
+for data in datasets:
+    x = data["x"]
+    y = data["y"]
+    
+    # Calcul de a et b
+    a, b = calcul_parametres(x, y)
+    
+    # Calcul des prédictions pour pouvoir calculer la MSE
+    y_pred = [(a * val + b) for val in x]
+    
+    # Calcul de l'erreur
+    erreur = calcul_mse(y, y_pred)
+    
+    # Affichage propre (arrondi à 2 décimales)
+    print(f"{data['nom']:<12} | {a:<10.2f} | {b:<12.2f} | {erreur:<8.2f}")
