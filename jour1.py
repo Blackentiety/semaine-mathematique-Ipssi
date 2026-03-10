@@ -12,65 +12,54 @@ def v_add(v1,v2):
 
 print(v_add(v1,v2))
 
-def v_multi(v1, v2):
-    temp = 0
-    res = 0
-    for i in range(len(v1)):
-        temp = v1[i]*v2[i]
-        res+=temp
-    return res
-
-print(v_multi(v1,v2))
-
-def mv_produit(matrice,vecteur):
+def mv_produit(matrice, vecteur):
     resultat = []
-    for ligne in range(len(matrice)):
+    for ligne in matrice:
         somme_ligne = 0
         for i in range(len(vecteur)):
-            somme_ligne += ligne * vecteur[i]
-    resultat.append(somme_ligne)
-    return resultat 
+            somme_ligne += ligne[i] * vecteur[i]
+        
+        resultat.append(somme_ligne)
+    
+    return resultat
 
-print(mv_produit(m1,v1))
+# Test avec tes données de l'image
+A = [[1, 2], [3, 4]]
+x = [5, 6]
 
+print(mv_produit(A, x)) # Affiche [17, 39]
+# données
+surface = [50, 70, 90]
+prix = [100, 140, 180]
+
+# --- Fonctions utilitaires ---
 def moyenne(liste):
-    resultat = 0
-    for valeur in liste:
-        resultat+= valeur
-    return resultat/len(liste)
+    return sum(liste) / len(liste)
 
-moyenne_surface = moyenne(surface)
-moyenne_prix = moyenne(prix)
+def v_multi(v1, v2): # Produit scalaire
+    return sum(v1[i] * v2[i] for i in range(len(v1)))
 
-def numerateur(liste):
-    m = moyenne(liste)
-    resultat = []
-    for valeur in liste:
-        resultat.append((valeur-m))
-    return resultat
+# --- Calcul de la régression ---
+def calcul_parametres(x, y):
+    mx = moyenne(x)
+    my = moyenne(y)
+    
+    # Numérateur : somme de (xi - mx) * (yi - my)
+    ecart_x = [(val - mx) for val in x]
+    ecart_y = [(val - my) for val in y]
+    numerateur = v_multi(ecart_x, ecart_y)
+    
+    # Dénominateur : somme de (xi - mx)²
+    denominateur = v_multi(ecart_x, ecart_x)
+    
+    a = numerateur / denominateur
+    b = my - (a * mx)
+    
+    return a, b
 
-num_a = numerateur(surface)
-num_b = numerateur(prix)
+a, b = calcul_parametres(surface, prix)
+print(f"Le prix prédit est : y = {a} * surface + {b}")
 
-def calcul_final_a(vecteur1, vecteur2):
-    num_a = numerateur(vecteur1)
-    print(num_a)
-    num_b = numerateur(vecteur2)
-    print(num_b)
-    denominateur = v_multi(num_a,num_a)
-    print(denominateur)
-    print(v_multi(num_a,num_b))
-    resultat = v_multi(num_a,num_b)/denominateur
-    return resultat
-
-print(calcul_final_a(surface,prix))
-
-def calcul_final_b(vecteur1, vecteur2):
-    a = calcul_final_a(vecteur1, vecteur2)
-    moy_x = moyenne(surface)
-    moy_y = moyenne(prix)
-    b = moy_y - (a * moy_x)
-    return b 
-
-print(calcul_final_b(prix, surface))
-
+# Test de prédiction pour une maison de 100m2
+prediction = a * 100 + b
+print(f"Pour 100m2, le prix estimé est de {prediction} k€")
