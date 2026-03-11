@@ -77,7 +77,9 @@ def entrainer(X, y, alpha=0.01, epochs=50):
                 for j in range(5):
                     poids[j] += alpha * erreur * X[i][j]
                 biais += alpha * erreur
-    return poids, biais
+    return poids, biais 
+```
+
 
 ## 9. Limites et cas réels (Niveau : Avancé)
 **Problématique :** Un attaquant sophistiqué lance une **APT** (Advanced Persistent Threat) en envoyant des connexions très lentes (1 paquet/min), avec de grands paquets et peu d'erreurs, imitant le trafic légitime.
