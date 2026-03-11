@@ -54,3 +54,23 @@ L'analyse de la capture d'écran ci-dessous est cruciale. Elle montre quatre dat
 
 ## 5. Conclusion
 Le projet démontre que la **fonction de prédiction** est le moteur du modèle, tandis que la **MSE** en est le juge. Cependant, l'analyse du Quatuor d'Anscombe nous rappelle qu'une MSE faible ne garantit pas la pertinence d'un modèle : la visualisation graphique reste indispensable pour valider l'interprétation des données.
+
+# Étude de la Régression Linéaire : Approche Matricielle
+
+Ce projet implémente une régression linéaire simple sur le **Dataset 1 du Quartet d'Anscombe** en utilisant l'algèbre linéaire (l'Équation Normale) avec `numpy`.
+
+## 1. Théorie : L'Équation Normale
+
+Plutôt que d'utiliser des boucles `for` pour calculer les sommes, nous utilisons la notation matricielle. L'objectif est de trouver le vecteur de paramètres $\theta$ (thêta) qui minimise l'erreur.
+
+### Le vecteur $\theta$
+Il regroupe nos deux inconnues :
+- $\theta_0$ : Le **biais** ($b$), l'ordonnée à l'origine.
+- $\theta_1$ : La **pente** ($a$).
+
+$$\theta = \begin{pmatrix} \theta_0 \\ \theta_1 \end{pmatrix}$$
+
+### La formule magique
+La solution analytique pour trouver $\theta$ est donnée par l'équation :
+$$\theta = (X^T X)^{-1} X^T Y$$
+
